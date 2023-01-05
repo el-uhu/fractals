@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    .slidecontainer {
+    width: 100%;
+    }
+
+    .slider {
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+
+    .slider:hover {
+    opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+    <div class="slidecontainer">
+        <input id="depthrange" type="range" min="1" max="12" value="2" class="slider">
+        <input id="heightrange" type="range" min="1" max="86" value="50" class="slider">
+    </div>
+
+    <canvas id="my-canvas" width = "1000px" height = "1000px" />
+ 
+    <script>
+        
+        const depthslider = document.getElementById("depthrange");
+        const heightslider = document.getElementById("heightrange");
+        const canvas = document.getElementById('my-canvas'); 
+        const context = canvas.getContext('2d');
+        const offset = 450
+        context.translate(offset, offset) 
+
+        const img = new Image();
+
+        const alpha = Math.PI / 4;
+        const beta = Math.PI / 4;
+
+        
+
+        class Rectangle {
+            constructor(x, y, width, rotation) {
+                this.x = x;
+                this.y = y;
+                this.w = width;
+                this.rotation = rotation;
+            }
+        }
+
+        function drawSquare(rect, img) {
+            
+            context.rotate(rect.rotation);
+            context.translate(rect.x, rect.y);
+            context.drawImage(img, 0, 0, rect.w, rect.w);
+             
+        }
+
+        function PythagorasTree(A, depth, depthLimit ) {
+            if (depth == depthLimit)
+                return;
+
+            context.save()
+            drawSquare(A, img)
+
+            w2 = Math.sin(beta) * A.w;
+            w3 = Math.cos(beta) * A.w;
+            
+            const B = new Rectangle(0, -w2, w2, -alpha);
+            const C = new Rectangle(0, -w3-w2, w3, beta);
+
+            PythagorasTree(C, depth+1,depthLimit);
+            PythagorasTree(B, depth+1, depthLimit);
+            context.restore();
+        }
+
+        function updateCanvas() {
+            context.clearRect(-offset, -offset, canvas.width, canvas.height);
+            A = new Rectangle(0, 0, 100, 0);
+            PythagorasTree(A, 0, depthslider.value);
+            requestAnimationFrame(updateCanvas)
+        }
+
+        img.src = './bark.jpg';  
+        
+        img.onload = () => {
+            updateCanvas(); 
+        };
+
+
+
+    </script>
+
+</body>
+</html>
