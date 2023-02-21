@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 <style>
     #video {
     border: 1px solid black;
@@ -39,12 +40,7 @@
     margin-left: auto;
     margin-right: auto;
     bottom: 32px;
-    background-color: rgba(0, 150, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-    font-family: "Lucida Grande", "Arial", sans-serif;
-    color: rgba(255, 255, 255, 1);
+
     }
 
     .contentarea {
@@ -104,7 +100,7 @@
         </p>
         <div class="camera">
           <video id="video">Video stream not available.</video>
-          <button id="startbutton">Take photo</button>
+          <button id="startbutton" class="button is-info"></button>
         </div>
         <canvas id="canvas"> </canvas>
         <div class="output">
