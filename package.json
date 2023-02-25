@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "bulma": "^0.9.4"
+    "alpinejs": "^3.11.1",
+    "bulma": "^0.9.4",
+    "feather-icons": "^4.29.0"
+  },
+  "devDependencies": {
+    "simple-autoreload-server": "^0.2.15"
   }
 }
